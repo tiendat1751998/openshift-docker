@@ -1,0 +1,61 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: your-spring-boot-app-pipeline
+spec:
+  resources:
+    - name: source-repo
+      type: git
+    - name: image
+      type: image
+  tasks:
+    - name: build-and-push-image
+      taskRef:
+        name: buildah
+      params:
+        - name: IMAGE
+          value: your-project/your-spring-boot-app
+        - name: CONTEXT
+          value: /workspace/source-repo/path/to/your/spring-boot-app
+      resources:
+        inputs:
+          - name: source
+            resource: source-repo
+        outputs:
+          - name: image
+            resource: image
+    - name: deploy
+      taskRef:
+        name: deploy-using-kubectl
+      params:
+        - name: KUBECTL_NAMESPACE
+          value: your-namespace
+        - name: KUBECTL_RESOURCE_TYPE
+          value: deploymentconfig
+        - name: KUBECTL_RESOURCE_NAME
+          value: your-spring-boot-app
+        - name: KUBECTL_APPLY_MANIFEST
+          value: |
+            apiVersion: apps.openshift.io/v1
+            kind: DeploymentConfig
+            metadata:
+              name: your-spring-boot-app
+            spec:
+              replicas: 1
+              selector:
+                app: your-spring-boot-app
+              template:
+                metadata:
+                  labels:
+                    app: your-spring-boot-app
+                spec:
+                  containers:
+                    - name: your-spring-boot-app
+                      image: ${inputs.resources.image.url}:${inputs.params.IMAGE_TAG}
+                      ports:
+                        - containerPort: 8080
+                      env:
+                        # Add any environment variables your app may need
+                        - name: SPRING_PROFILES_ACTIVE
+                          value: production
+                        # Add other environment variables as needed

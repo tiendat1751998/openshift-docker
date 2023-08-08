@@ -1,0 +1,20 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: openshift-spring-boot-build
+spec:
+  source:
+    git:
+      uri: https://github.com/tiendat1751998/openshift-docker.git
+      ref: master  # Or specify the branch you want to build
+    #contextDir: path/to/your/spring-boot-app  # If your app is not in the root directory of the repository
+  strategy:
+    sourceStrategy:
+      from:
+        kind: DockerImage
+        name: openjdk:11-jdk-slim
+    type: Source
+  output:
+    to:
+      kind: ImageStreamTag
+      name: dotiendat1751998/student-docker:latest

@@ -27,4 +27,9 @@ public class StudentControllers {
     public ResponseEntity<List<StudentDTO>> getAllStudents() {
         return new ResponseEntity<>(iStudentService.getAll(), HttpStatus.OK);
     }
+    @GetMapping(value = "/test")
+    public  ResponseEntity<String> dataTest()
+    {
+        return  new ResponseEntity<>("susscess",HttpStatus.OK);
+    }
 }

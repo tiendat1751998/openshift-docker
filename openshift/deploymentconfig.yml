@@ -1,0 +1,25 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: openshift-spring-boot
+spec:
+  replicas: 1  # Set the desired number of replicas
+  selector:
+    app: openshift-spring-boot
+  template:
+    metadata:
+      labels:
+        app: openshift-spring-boot
+    spec:
+      containers:
+        - name: openshift-spring-boot
+          image: dotiendat1751998/student-docker:latest  # Replace with your image stream name
+          ports:
+            - containerPort: 8082  # Set the port that your Spring Boot app listens on
+          env:
+            # Add any environment variables your app may need
+            - name: SPRING_PROFILES_ACTIVE
+              value: application
+            # Add other environment variables as needed
+          # Add any volume mounts if necessary
+          # Add readiness and liveness probes if desired

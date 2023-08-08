@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineResource
+metadata:
+  name: openshift-docker
+spec:
+  type: git
+  params:
+    - name: revision
+      value: master  # Or specify the branch you want to build
+    - name: url
+      value: https://github.com/tiendat1751998/openshift-docker.git

@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    openshift.withCluster() {
+                        openshift.withProject() {
+                            def bc = openshift.selector('bc', 'openshift-spring-boot-build').object()
+                            bc.startBuild("--from-revision=main")
+                        }
+                    }
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    openshift.withCluster() {
+                        openshift.withProject() {
+                            def dc = openshift.selector('dc', 'openshift-spring-boot').object()
+                            dc.rollout().latest()
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
