@@ -56,7 +56,7 @@ spec:
           image: dotiendat1751998/student-docker:latest
           ports:
             - name: http
-              containerPort: 8088
+              containerPort: 8081
               protocol: TCP
           resources:
             requests:
@@ -69,9 +69,9 @@ metadata:
   name: my-java-springboot-svc
 spec:
   ports:
-    - name: http-8088
-      port: 8088
+    - name: http-8081
+      port: 8081
       protocol: TCP
-      targetPort: 8088
+      targetPort: 8081
   selector:
     app: java-springboot-app
