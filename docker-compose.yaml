@@ -1,0 +1,63 @@
+# Version docker chọn viết theo phiên bản 3 docs.docker.com/compose/compose-file/
+version: '3'
+ # list Các dịch vụ, container nằm trong services
+services:
+  #Tên dịch vụ  là Mysql
+  mysql:
+    #tên image sẽ pull về
+    image: mysql:8
+    # Tên của container
+    container_name: mysqld
+    # các biến môi trường
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+      - MYSQL_DATABASE=D
+      - MYSQL_ROOT_PASSWORD=123123*
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=123123*
+    #đoạn này để config cho file my.cnf  khi config mysql
+    command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_bin','--transaction-isolation=READ-COMMITTED', '--innodb_log_file_size=256M', '--max_allowed_packet=256M' ]
+    #port cho mysql bên trái là port từ ngoài gọi vào , bên phải là port của container , có thể thay đổi port bên trái thành bất cứ port gì khác
+    ports:
+      - "3306:3306"
+    # liên kết các dữ liệu từ container ra máy local :  /database trên máy local với thư mục /var/lib/mysql trong database
+    #Sở dĩ phải mapping như vậy để tránh việc mất dữ liệu khi chúng ta chạy lại docker-compose. Vì khi chạy lại docker-compose thì nó cũng tạo ra 1 container mysql mới, chúng ta lưu trữ dữ liệu trong container ra ngoài máy local để khi start lại, container mới tạo ra vẫn ánh xạ đến thư mục naỳ trên máy local và sử dụng dữ liệu cũ một cách bình thường.
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # restart ngay khi   hệ thống gặp lỗi , có thể tắt phần này
+    restart: always
+    #define một network dùng chung cho các container ,Network này có tên là network-bridge sử dụng driver bridge
+    networks:
+      - network-bridge
+
+  #đây là service 2
+  students-svc:
+    container_name: students
+
+    # Dockerimage mà Students-service sử dụng để tạo container.
+    image: dotiendat1751998/student-docker:latest
+
+    # Các biến môi trường sẽ được thêm vào container.
+    environment:
+      - SERVER_PORT=8080
+      - MYSQL_URL=jdbc:mysql://172.18.0.2:3306/D
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=123123*
+      - STUDENTS_URI=http://localhost:8080
+    ports:
+      - "8080:8080"
+    #depends_on: Thiết lập container students-svc phụ thuộc vào container mysql (khởi động sau khi container mysql start thành công) đồng thời link đến container đó.
+    depends_on:
+      - mysql
+    restart: always
+
+networks:
+  network-bridge:
+    driver: bridge
+
+volumes:
+  home_data:
+    external: false
+  mysql_data:
+    external: false
+

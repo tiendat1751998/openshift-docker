@@ -1,0 +1,25 @@
+# Version docker chọn viết theo phiên bản 3 docs.docker.com/compose/compose-file/
+version: '3'
+# list Các dịch vụ, container nằm trong services
+services:
+  students-svc:
+    container_name: students
+
+    # Dockerimage mà Students-service sử dụng để tạo container.
+    image: dotiendat1751998/student-docker:latest
+
+    ports:
+      - "9999:8080"
+    #depends_on: Thiết lập container students-svc phụ thuộc vào container mysql (khởi động sau khi container mysql start thành công) đồng thời link đến container đó.
+    restart: always
+
+networks:
+  network-bridge:
+    driver: bridge
+
+volumes:
+  home_data:
+    external: false
+  mysql_data:
+    external: false
+
