@@ -14,14 +14,16 @@ spec:
     spec:
       containers:
         - name: mariadb
-          image: mariadb:latest
+          image: mariadb
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: Adm1n123*
             - name: MYSQL_DATABASE
               value: example
           ports:
-            - containerPort: 3306
+            - name: http
+              containerPort: 3306
+              protocol: TCP
           volumeMounts:
             - name: mariadb-persistent-storage
               mountPath: /var/lib/mysql
