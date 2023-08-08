@@ -1,23 +1,23 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: openshift-springboot
+  name: openshift-java-springboot
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: openshift-springboot-app
+      app: openshift-java-springboot
   template:
     metadata:
       labels:
-        app: openshift-springboot-app
+        app: openshift-java-springboot
     spec:
       containers:
-        - name: openshift-java-springboot
+        - name: openshift-springboot
           image: dotiendat1751998/student-docker:latest
           ports:
             - name: http
-              containerPort: 8082
+              containerPort: 8088
               protocol: TCP
           resources:
             requests:
@@ -27,12 +27,12 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: openshift-springboot
+  name: openshift-java-springboot-svc
 spec:
   ports:
-    - name: http-8082
-      port: 8082
+    - name: http-8088
+      port: 8088
       protocol: TCP
-      targetPort: 8082
+      targetPort: 8088
   selector:
-    app: openshift-springboot
+    app: openshift-java-springboot-app
