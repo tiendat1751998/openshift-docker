@@ -35,4 +35,4 @@ spec:
       protocol: TCP
       targetPort: 8082
   selector:
-    app: openshift-springboot
+    app: openshift-springboot-app
