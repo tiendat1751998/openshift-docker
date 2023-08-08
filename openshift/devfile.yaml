@@ -22,7 +22,7 @@ components:
     image:
       imageName: dotiendat1751998/student-docker:latest
       dockerfile:
-        uri: dockerFile
+        uri: openshift/dockerFile
         buildContext: .
         rootRequired: false
   - name: kubernetes-deploy
@@ -32,7 +32,7 @@ components:
       deployment/memoryRequest: 180Mi
       deployment/container-port: 8088
     kubernetes:
-      uri: deploy.yaml
+      uri: openshift/deploy.yaml
       endpoints:
         - name: http-8088
           targetPort: 8088
