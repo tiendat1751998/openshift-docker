@@ -1,19 +1,58 @@
+#kind: Deployment
+#apiVersion: apps/v1
+#metadata:
+#  name: openshift-java-springboot
+#spec:
+#  replicas: 2
+#  selector:
+#    matchLabels:
+#      app: openshift-java-springboot
+#  template:
+#    metadata:
+#      labels:
+#        app: openshift-java-springboot
+#    spec:
+#      containers:
+#        - name: openshift-springboot
+#          image: dotiendat1751998/student-docker:latest
+#          ports:
+#            - name: http
+#              containerPort: 8088
+#              protocol: TCP
+#          resources:
+#            requests:
+#              memory: "180Mi"
+#              cpu: "10m"
+#---
+#kind: Service
+#apiVersion: v1
+#metadata:
+#  name: openshift-java-springboot-svc
+#spec:
+#  ports:
+#    - name: http-8088
+#      port: 8088
+#      protocol: TCP
+#      targetPort: 8088
+#  selector:
+#    app: openshift-java-springboot
+
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: openshift-java-springboot
+  name: my-java-springboot
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: openshift-java-springboot
+      app: java-springboot-app
   template:
     metadata:
       labels:
-        app: openshift-java-springboot
+        app: java-springboot-app
     spec:
       containers:
-        - name: openshift-springboot
+        - name: my-java-springboot
           image: dotiendat1751998/student-docker:latest
           ports:
             - name: http
@@ -27,7 +66,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: openshift-java-springboot-svc
+  name: my-java-springboot-svc
 spec:
   ports:
     - name: http-8088
@@ -35,4 +74,4 @@ spec:
       protocol: TCP
       targetPort: 8088
   selector:
-    app: openshift-java-springboot
+    app: java-springboot-app
