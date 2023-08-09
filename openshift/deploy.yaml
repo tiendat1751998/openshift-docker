@@ -66,12 +66,12 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: my-java-springboot-svc
+  name: openshift-springboot-svc
 spec:
   ports:
-    - name: http-8081
+    - name: http-8088
       port: 8081
       protocol: TCP
-      targetPort: 8081
+      targetPort: 8088
   selector:
     app: java-springboot-app
