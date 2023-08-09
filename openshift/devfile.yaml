@@ -84,7 +84,7 @@ components:
       deployment/replicas: 1
       deployment/cpuRequest: 10m
       deployment/memoryRequest: 180Mi
-      deployment/container-port: 8081
+      deployment/container-port: 8088
     kubernetes:
       uri: openshift/deploy.yaml
       endpoints:
