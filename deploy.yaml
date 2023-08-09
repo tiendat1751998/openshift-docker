@@ -1,0 +1,38 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: my-java-springboot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-springboot-app
+  template:
+    metadata:
+      labels:
+        app: java-springboot-app
+    spec:
+      containers:
+        - name: my-java-springboot
+          image: dotiendat1751998/student-docker:latest
+          ports:
+            - name: http
+              containerPort: 8088
+              protocol: TCP
+          resources:
+            requests:
+              memory: "180Mi"
+              cpu: "10m"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-java-springboot-svc
+spec:
+  ports:
+    - name: http-8088
+      port: 8088
+      protocol: TCP
+      targetPort: 8088
+  selector:
+    app: java-springboot-app
