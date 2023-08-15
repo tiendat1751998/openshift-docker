@@ -1,0 +1,13 @@
+- name: Install OpenShift
+  hosts: api.sandbox-m4.g2pi.p1.openshiftapps.com:6443
+  tasks:
+    - name: Install prerequisites
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - docker
+        - ansible
+        - other_prerequisites
+
+    # Add more tasks for installing OpenShift components, configuring networking, etc.

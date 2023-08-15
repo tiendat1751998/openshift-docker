@@ -68,6 +68,12 @@ metadata:
   language: Java
   provider: Red Hat
   supportUrl: https://github.com/devfile-samples/devfile-support#support-information
+  projects:
+    - name: my-go-project
+      clonePath: go/src/github.com/acme/my-go-project
+      git:
+        remotes:
+          origin: 'https://github.com/acme/my-go-project.git'
 parent:
   id: java-springboot
   registryUrl: 'https://registry.devfile.io'
