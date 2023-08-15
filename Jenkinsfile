@@ -34,15 +34,12 @@
 pipeline {
 	agent any
 
-    stages {
+	stages {
         stage('Checkout') {
             steps {
                 // Checkout the source code from the repository
                 checkout scm
             }
-        }
-	stages {
-
 		stage('Build'){
 			steps {
 				bat "mvn clean install -DskipTests"
