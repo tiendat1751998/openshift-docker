@@ -42,6 +42,13 @@ pipeline {
 		jdk 'java-17'
 	}
 
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from the repository
+                checkout scm
+            }
+        }
 	stages {
 
 		stage('Build'){
