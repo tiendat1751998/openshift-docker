@@ -26,7 +26,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 // Deploy your application (e.g., to a Tomcat server)
-                sh 'mvn deploy'  // or any deployment command you use
+                sh 'scp target/*.jar root@192.168.80.132:/java'  // or any deployment command you use
             }
         }
     }
